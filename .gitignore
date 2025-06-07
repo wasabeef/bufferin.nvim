@@ -1,0 +1,21 @@
+# Neovim swap files
+*.swp
+*.swo
+*~
+
+# macOS system files
+.DS_Store
+
+# Testing artifacts
+/plenary.nvim/
+
+# IDE configuration files
+.idea/
+.vscode/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.bak

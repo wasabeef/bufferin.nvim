@@ -1,0 +1,180 @@
+*bufferin.txt*    A simple and intuitive buffer manager for Neovim
+
+==============================================================================
+CONTENTS                                                   *bufferin-contents*
+
+  1. Introduction.......................................|bufferin-introduction|
+  2. Requirements.......................................|bufferin-requirements|
+  3. Installation.......................................|bufferin-installation|
+  4. Usage.................................................|bufferin-usage|
+  5. Configuration...................................|bufferin-configuration|
+  6. Commands.............................................|bufferin-commands|
+  7. Mappings.............................................|bufferin-mappings|
+  8. Icons.................................................|bufferin-icons|
+  9. License...............................................|bufferin-license|
+
+==============================================================================
+1. INTRODUCTION                                        *bufferin-introduction*
+
+bufferin.nvim is a simple and intuitive buffer manager for Neovim.
+It provides an easy way to navigate, delete, and reorder buffers through
+a floating window interface with file type icon support.
+
+Features:
+- List all open buffers in a floating window
+- Display file type icons (supports nvim-web-devicons and mini.icons)
+- Navigate to buffers with Enter
+- Delete buffers with dd
+- Reorder buffers with K/J (changes actual Vim buffer order)
+- Search buffers with /
+- Preview buffer contents with p
+
+==============================================================================
+2. REQUIREMENTS                                        *bufferin-requirements*
+
+- Neovim >= 0.7.0
+- Optional: nvim-web-devicons or mini.icons for file icons
+
+==============================================================================
+3. INSTALLATION                                        *bufferin-installation*
+
+Using packer.nvim:
+>
+  use {
+    'wasabeef/bufferin.nvim',
+    config = function()
+      require('bufferin').setup()
+    end,
+    requires = { 'nvim-tree/nvim-web-devicons' } -- optional
+  }
+<
+
+Using lazy.nvim:
+>
+  {
+    'wasabeef/bufferin.nvim',
+    config = function()
+      require('bufferin').setup()
+    end,
+    dependencies = { 'nvim-tree/nvim-web-devicons' } -- optional
+  }
+<
+
+==============================================================================
+4. USAGE                                                     *bufferin-usage*
+
+Open bufferin:
+>
+  :Bufferin
+<
+
+Or toggle it:
+>
+  :BufferinToggle
+<
+
+You can also map it to a key:
+>
+  vim.keymap.set('n', '<leader>b', ':Bufferin<CR>')
+<
+
+==============================================================================
+5. CONFIGURATION                                      *bufferin-configuration*
+
+Setup bufferin with custom options:
+>
+  require('bufferin').setup({
+    window = {
+      width = 0.8,      -- Window width (0-1 for percentage)
+      height = 0.8,     -- Window height (0-1 for percentage)
+      border = 'rounded', -- Border style
+      position = 'center', -- Window position
+    },
+    mappings = {
+      select = '<CR>',    -- Select buffer
+      delete = 'dd',      -- Delete buffer
+      move_up = 'K',      -- Move buffer up
+      move_down = 'J',    -- Move buffer down
+      quit = 'q',         -- Close window
+      search = '/',       -- Search buffers
+      clear_search = '<Esc>', -- Clear search
+      preview = 'p',      -- Preview buffer
+    },
+    display = {
+      show_numbers = true,  -- Show buffer numbers
+      show_modified = true, -- Show modified indicator
+      show_path = true,     -- Show file path
+      show_hidden = false,  -- Show hidden buffers
+      show_icons = true,    -- Show file type icons
+    },
+    icons = {
+      modified = '●',    -- Modified buffer icon
+      readonly = '',    -- Readonly buffer icon
+      terminal = '',    -- Terminal buffer icon
+      provider = 'auto', -- Icon provider: 'auto', 'devicons', 'mini', 'builtin'
+      builtin = {        -- Builtin icons (when no icon plugin available)
+        default = '',
+        lua = '',
+        vim = '',
+        -- ... see config.lua for full list
+      },
+    },
+  })
+<
+
+==============================================================================
+6. COMMANDS                                                *bufferin-commands*
+
+*:Bufferin*
+    Open the bufferin window
+
+*:BufferinToggle*
+    Toggle the bufferin window
+
+*:BufferinNext*
+    Go to the next buffer in custom order
+
+*:BufferinPrev*
+    Go to the previous buffer in custom order
+
+==============================================================================
+7. MAPPINGS                                                *bufferin-mappings*
+
+Default mappings inside the bufferin window:
+
+  <CR>        Select the buffer under cursor
+  dd          Delete the buffer under cursor
+  K           Move buffer up in the list
+  J           Move buffer down in the list
+  q           Close bufferin
+  /           Search buffers
+  <Esc>       Clear search
+  p           Preview buffer contents
+
+==============================================================================
+8. ICONS                                                      *bufferin-icons*
+
+bufferin.nvim supports multiple icon providers:
+
+1. nvim-web-devicons - Provides the most comprehensive icon set
+2. mini.icons - Lightweight alternative
+3. builtin - Basic icons included with the plugin
+
+The plugin automatically detects which provider is available. You can
+manually specify the provider in the configuration:
+>
+  icons = {
+    provider = 'devicons', -- 'auto', 'devicons', 'mini', or 'builtin'
+  }
+<
+
+When using the builtin provider, you can customize the icons for different
+file types in the configuration.
+
+==============================================================================
+9. LICENSE                                                  *bufferin-license*
+
+MIT License. See LICENSE file for details.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
