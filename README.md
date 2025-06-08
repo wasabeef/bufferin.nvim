@@ -10,7 +10,7 @@
 
 A powerful and intuitive buffer manager for Neovim with advanced window layout visualization and seamless plugin integration.
 
-![Bufferin Demo](https://user-images.githubusercontent.com/wasabeef/bufferin-demo.gif)
+https://github.com/user-attachments/assets/70d426ae-2e05-45bb-8116-63038557ce39
 
 ## ✨ Features
 
