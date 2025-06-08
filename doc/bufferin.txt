@@ -1,4 +1,4 @@
-*bufferin.txt*    A simple and intuitive buffer manager for Neovim
+*bufferin.txt*    Advanced buffer manager with layout visualization for Neovim
 
 ==============================================================================
 CONTENTS                                                   *bufferin-contents*
@@ -6,175 +6,514 @@ CONTENTS                                                   *bufferin-contents*
   1. Introduction.......................................|bufferin-introduction|
   2. Requirements.......................................|bufferin-requirements|
   3. Installation.......................................|bufferin-installation|
-  4. Usage.................................................|bufferin-usage|
-  5. Configuration...................................|bufferin-configuration|
+  4. Quick Start........................................|bufferin-quick-start|
+  5. Usage.................................................|bufferin-usage|
   6. Commands.............................................|bufferin-commands|
   7. Mappings.............................................|bufferin-mappings|
-  8. Icons.................................................|bufferin-icons|
-  9. License...............................................|bufferin-license|
+  8. Configuration...................................|bufferin-configuration|
+  9. Window Layout...................................|bufferin-window-layout|
+ 10. Plugin Integration.............................|bufferin-plugin-integration|
+ 11. Buffer Management..............................|bufferin-buffer-management|
+ 12. Icons.................................................|bufferin-icons|
+ 13. Advanced Features..............................|bufferin-advanced-features|
+ 14. Troubleshooting................................|bufferin-troubleshooting|
+ 15. License...............................................|bufferin-license|
 
 ==============================================================================
 1. INTRODUCTION                                        *bufferin-introduction*
 
-bufferin.nvim is a simple and intuitive buffer manager for Neovim.
-It provides an easy way to navigate, delete, and reorder buffers through
-a floating window interface with file type icon support.
+bufferin.nvim is a powerful and intuitive buffer manager for Neovim that
+provides advanced window layout visualization and seamless integration with
+popular buffer line plugins.
 
-Features:
-- List all open buffers in a floating window
-- Display file type icons (supports nvim-web-devicons and mini.icons)
-- Navigate to buffers with Enter
-- Delete buffers with dd
-- Reorder buffers with K/J (changes actual Vim buffer order)
-- Search buffers with /
-- Preview buffer contents with p
+Key Features:
+- 📋 Smart buffer management with floating window interface
+- 🗺️ Visual window layout maps using Unicode box-drawing characters
+- 🎨 Universal icon support (devicons, mini.icons, or built-in fallback)
+- 🔗 Seamless integration with nvim-cokeline and bufferline.nvim
+- 🚀 Intelligent navigation with instant buffer jumping
+- 🗑️ Smart buffer deletion with unsaved changes protection
+- 🔄 Real buffer reordering (not just visual) using swap-based algorithms
+- 💾 Session persistence for buffer order
+- ⚙️ Zero configuration required with automatic plugin detection
 
 ==============================================================================
 2. REQUIREMENTS                                        *bufferin-requirements*
 
 - Neovim >= 0.7.0
-- Optional: nvim-web-devicons or mini.icons for file icons
+- Optional: nvim-web-devicons or mini.icons for enhanced file icons
+- Optional: nvim-cokeline or bufferline.nvim for enhanced integration
 
 ==============================================================================
 3. INSTALLATION                                        *bufferin-installation*
 
-Using packer.nvim:
->
-  use {
-    'wasabeef/bufferin.nvim',
+Using lazy.nvim (recommended):
+>lua
+  {
+    'your-username/bufferin.nvim',
+    cmd = { "Bufferin", "BufferinToggle" },
     config = function()
       require('bufferin').setup()
     end,
-    requires = { 'nvim-tree/nvim-web-devicons' } -- optional
+    dependencies = {
+      'nvim-tree/nvim-web-devicons', -- Optional: for file icons
+      -- 'willothy/nvim-cokeline',     -- Optional: for buffer line integration
+      -- 'akinsho/bufferline.nvim',    -- Optional: alternative buffer line
+    }
   }
 <
 
-Using lazy.nvim:
->
-  {
-    'wasabeef/bufferin.nvim',
+Using packer.nvim:
+>lua
+  use {
+    'your-username/bufferin.nvim',
     config = function()
       require('bufferin').setup()
     end,
-    dependencies = { 'nvim-tree/nvim-web-devicons' } -- optional
+    requires = { 'nvim-tree/nvim-web-devicons' } -- Optional
   }
+<
+
+Using vim-plug:
+>vim
+  Plug 'your-username/bufferin.nvim'
+  Plug 'nvim-tree/nvim-web-devicons' " Optional
 <
 
 ==============================================================================
-4. USAGE                                                     *bufferin-usage*
+4. QUICK START                                          *bufferin-quick-start*
 
-Open bufferin:
+Minimal setup (works out of the box):
+>lua
+  require('bufferin').setup()
+<
+
+Add a keybinding:
+>lua
+  vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Open Bufferin' })
+<
+
+That's it! bufferin.nvim will automatically detect your environment and
+optimize itself accordingly.
+
+==============================================================================
+5. USAGE                                                     *bufferin-usage*
+
+Open bufferin buffer manager:
 >
   :Bufferin
 <
 
-Or toggle it:
+Toggle bufferin window:
 >
   :BufferinToggle
 <
 
-You can also map it to a key:
+Navigate buffers using custom order:
 >
-  vim.keymap.set('n', '<leader>b', ':Bufferin<CR>')
+  :BufferinNext
+  :BufferinPrev
 <
 
-==============================================================================
-5. CONFIGURATION                                      *bufferin-configuration*
-
-Setup bufferin with custom options:
->
-  require('bufferin').setup({
-    window = {
-      width = 0.8,      -- Window width (0-1 for percentage)
-      height = 0.8,     -- Window height (0-1 for percentage)
-      border = 'rounded', -- Border style
-      position = 'center', -- Window position
-    },
-    mappings = {
-      select = '<CR>',    -- Select buffer
-      delete = 'dd',      -- Delete buffer
-      move_up = 'K',      -- Move buffer up
-      move_down = 'J',    -- Move buffer down
-      quit = 'q',         -- Close window
-      search = '/',       -- Search buffers
-      clear_search = '<Esc>', -- Clear search
-      preview = 'p',      -- Preview buffer
-    },
-    display = {
-      show_numbers = true,  -- Show buffer numbers
-      show_modified = true, -- Show modified indicator
-      show_path = true,     -- Show file path
-      show_hidden = false,  -- Show hidden buffers
-      show_icons = true,    -- Show file type icons
-    },
-    icons = {
-      modified = '●',    -- Modified buffer icon
-      readonly = '',    -- Readonly buffer icon
-      terminal = '',    -- Terminal buffer icon
-      provider = 'auto', -- Icon provider: 'auto', 'devicons', 'mini', 'builtin'
-      builtin = {        -- Builtin icons (when no icon plugin available)
-        default = '',
-        lua = '',
-        vim = '',
-        -- ... see config.lua for full list
-      },
-    },
-  })
+Recommended keybindings:
+>lua
+  vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Open Bufferin' })
+  vim.keymap.set('n', '<leader>bn', '<cmd>BufferinNext<cr>', { desc = 'Next Buffer' })
+  vim.keymap.set('n', '<leader>bp', '<cmd>BufferinPrev<cr>', { desc = 'Previous Buffer' })
 <
 
 ==============================================================================
 6. COMMANDS                                                *bufferin-commands*
 
 *:Bufferin*
-    Open the bufferin window
+    Open the bufferin buffer manager window
 
 *:BufferinToggle*
-    Toggle the bufferin window
+    Toggle the bufferin window (open if closed, close if open)
 
 *:BufferinNext*
-    Go to the next buffer in custom order
+    Navigate to the next buffer in custom order
 
 *:BufferinPrev*
-    Go to the previous buffer in custom order
+    Navigate to the previous buffer in custom order
 
 ==============================================================================
 7. MAPPINGS                                                *bufferin-mappings*
 
 Default mappings inside the bufferin window:
 
-  <CR>        Select the buffer under cursor
-  dd          Delete the buffer under cursor
-  K           Move buffer up in the list
-  J           Move buffer down in the list
-  q           Close bufferin
-  /           Search buffers
-  <Esc>       Clear search
-  p           Preview buffer contents
+  <CR> / <Enter>  Select and jump to the buffer under cursor
+  dd              Delete the buffer under cursor (with confirmation)
+  K               Move buffer up in the list
+  J               Move buffer down in the list
+  q               Close bufferin window
+
+All mappings are customizable through configuration.
 
 ==============================================================================
-8. ICONS                                                      *bufferin-icons*
+8. CONFIGURATION                                      *bufferin-configuration*
 
-bufferin.nvim supports multiple icon providers:
-
-1. nvim-web-devicons - Provides the most comprehensive icon set
-2. mini.icons - Lightweight alternative
-3. builtin - Basic icons included with the plugin
-
-The plugin automatically detects which provider is available. You can
-manually specify the provider in the configuration:
->
-  icons = {
-    provider = 'devicons', -- 'auto', 'devicons', 'mini', or 'builtin'
-  }
+Basic setup (recommended for most users):
+>lua
+  require('bufferin').setup()
 <
 
-When using the builtin provider, you can customize the icons for different
-file types in the configuration.
+Advanced configuration with all options:
+>lua
+  require('bufferin').setup({
+    -- Window appearance
+    window = {
+      width = 0.8,        -- 80% of screen width (0.0 to 1.0)
+      height = 0.8,       -- 80% of screen height (0.0 to 1.0)
+      border = 'rounded', -- 'single', 'double', 'rounded', 'solid', 'shadow', 'none'
+      position = 'center', -- Window position (currently only 'center' supported)
+    },
+
+    -- Key mappings (inside bufferin window)
+    mappings = {
+      select = '<CR>',    -- Select and jump to buffer
+      delete = 'dd',      -- Delete buffer
+      move_up = 'K',      -- Move buffer up in list
+      move_down = 'J',    -- Move buffer down in list
+      quit = 'q',         -- Close window
+    },
+
+    -- Display options
+    display = {
+      show_numbers = true,   -- Show buffer numbers
+      show_modified = true,  -- Show modified indicator (●)
+      show_path = true,      -- Show file paths
+      show_hidden = false,   -- Show hidden/unlisted buffers
+      show_icons = true,     -- Show file type icons
+    },
+
+    -- Icon configuration
+    icons = {
+      modified = '●',        -- Modified buffer indicator
+      readonly = '',        -- Read-only buffer indicator
+      terminal = '',        -- Terminal buffer indicator
+      provider = 'auto',     -- 'auto', 'devicons', 'mini', or 'builtin'
+
+      -- Built-in icon fallbacks (when no icon plugin available)
+      builtin = {
+        default = '',
+        lua = '',
+        vim = '',
+        js = '',
+        ts = '',
+        py = '',
+        -- ... (see lua/bufferin/config.lua for complete list)
+      },
+    },
+
+    -- Buffer management
+    sync_buffer_order = true,     -- Sync with Neovim's buffer list
+    persist_buffer_order = true,  -- Remember order between sessions
+    override_navigation = false,  -- Override :bnext/:bprev commands
+  })
+<
+
+*bufferin-config-window*
+Window configuration options:
+- `width`: Window width as percentage of screen (0.0 to 1.0)
+- `height`: Window height as percentage of screen (0.0 to 1.0)
+- `border`: Border style for floating window
+- `position`: Window position (currently only 'center')
+
+*bufferin-config-mappings*
+Key mapping configuration:
+- `select`: Key to select and jump to buffer
+- `delete`: Key to delete buffer
+- `move_up`: Key to move buffer up in list
+- `move_down`: Key to move buffer down in list
+- `quit`: Key to close bufferin window
+
+*bufferin-config-display*
+Display configuration options:
+- `show_numbers`: Show buffer numbers in the list
+- `show_modified`: Show indicator for modified buffers
+- `show_path`: Show file paths
+- `show_hidden`: Include hidden/unlisted buffers
+- `show_icons`: Show file type icons
+
+*bufferin-config-icons*
+Icon configuration:
+- `modified`: Icon for modified buffers
+- `readonly`: Icon for read-only buffers
+- `terminal`: Icon for terminal buffers
+- `provider`: Icon provider ('auto', 'devicons', 'mini', 'builtin')
+- `builtin`: Custom icons when no icon plugin is available
+
+*bufferin-config-experimental*
+Experimental/optional features:
+- `show_window_layout`: Show window layout visualization (default: false)
+
+*bufferin-config-navigation*
+Navigation options:
+- `override_navigation`: Override :bnext/:bprev to use custom order
 
 ==============================================================================
-9. LICENSE                                                  *bufferin-license*
+9. WINDOW LAYOUT                                      *bufferin-window-layout*
 
-MIT License. See LICENSE file for details.
+One of bufferin.nvim's unique features is its ability to visualize your
+current window layout using Unicode box-drawing characters.
+
+*bufferin-layout-features*
+Layout visualization features:
+- Real-time layout detection
+- Unicode visualization with clean ASCII art
+- Smart file grouping for multiple instances
+- Adaptive display (only shows when multiple windows present)
+- Responsive design for different window configurations
+
+*bufferin-layout-examples*
+Example layouts:
+
+Two-window horizontal split:
+>
+  Window Layout:
+  ┌──────────────┬──────────────┐
+  │ init.lua     │ config.lua   │
+  └──────────────┴──────────────┘
+<
+
+Complex multi-window layout:
+>
+  Window Layout:
+  ┌──────────────┬──────────────┬──────────────┐
+  │ buffer.lua   │ ui.lua       │ utils.lua    │
+  │──────────────┼──────────────┼──────────────│
+  │ test.lua     │ README.md    │ config.lua   │
+  └──────────────┴──────────────┴──────────────┘
+<
+
+Vertical split with mixed layout:
+>
+  Window Layout:
+  ┌──────────────┬──────────────┐
+  │ main.lua     │ config.lua   │
+  │──────────────│              │
+  │ test.lua     │              │
+  │──────────────│              │
+  │ utils.lua    │              │
+  └──────────────┴──────────────┘
+<
 
 ==============================================================================
-vim:tw=78:ts=8:ft=help:norl:
+10. PLUGIN INTEGRATION                            *bufferin-plugin-integration*
+
+bufferin.nvim automatically detects and integrates with popular buffer line
+plugins, providing seamless synchronization without any additional configuration.
+
+*bufferin-cokeline-integration*
+nvim-cokeline integration:
+When nvim-cokeline is detected:
+- Buffer movements in bufferin instantly reflect in your cokeline
+- Maintains perfect synchronization between both interfaces
+- Uses cokeline's buffer management API for consistency
+- No additional configuration required
+
+*bufferin-bufferline-integration*
+bufferline.nvim integration:
+When bufferline.nvim is detected:
+- Seamlessly integrates with bufferline's component system
+- Buffer reordering works across both interfaces
+- Automatic detection and optimization
+- Uses bufferline's move_to API for compatibility
+
+*bufferin-standalone-mode*
+Standalone mode:
+When no buffer line plugin is detected:
+- Full buffer management functionality
+- Custom ordering and navigation
+- Session persistence
+- Layout visualization
+- Optimized standalone buffer manipulation
+
+*bufferin-auto-detection*
+Automatic plugin detection:
+bufferin.nvim intelligently detects your environment:
+1. Checks for nvim-cokeline first (highest priority)
+2. Falls back to bufferline.nvim if cokeline not found
+3. Uses optimized standalone mode if neither detected
+4. Automatically selects best available icon provider
+
+==============================================================================
+11. BUFFER MANAGEMENT                            *bufferin-buffer-management*
+
+*bufferin-real-reordering*
+Real buffer reordering:
+Unlike plugins that only provide visual reordering, bufferin.nvim performs
+actual buffer manipulation:
+- Swap-based algorithm inspired by bufferline.nvim
+- Universal compatibility with or without external plugins
+- Persistent changes across sessions
+- Integration with navigation commands
+
+*bufferin-custom-order*
+Custom buffer order:
+- Maintained internally during editing session
+- Survives buffer creation/deletion
+- Used for :BufferinNext/:BufferinPrev navigation
+- Optionally affects :bnext/:bprev when override_navigation = true
+
+*bufferin-session-persistence*
+Session persistence:
+- Automatically saves buffer order when persist_buffer_order = true
+- Converts buffer numbers to file paths for portability
+- Restores order on Neovim startup
+- Handles missing files gracefully
+
+*bufferin-navigation-integration*
+Navigation integration:
+- Custom order affects :BufferinNext/:BufferinPrev commands
+- Global variables store order for external access
+- Events triggered for plugin synchronization
+- Optional override of built-in :bnext/:bprev
+
+==============================================================================
+12. ICONS                                                    *bufferin-icons*
+
+bufferin.nvim supports multiple icon providers with automatic detection and
+graceful fallbacks.
+
+*bufferin-icon-providers*
+Supported icon providers:
+1. nvim-web-devicons - Most comprehensive icon set (recommended)
+2. mini.icons - Lightweight alternative with good coverage
+3. builtin - Basic icons included with bufferin.nvim
+
+*bufferin-icon-detection*
+Icon provider detection:
+The plugin automatically detects available providers in this order:
+1. nvim-web-devicons (if available)
+2. mini.icons (if devicons not available)
+3. builtin fallback (always available)
+
+*bufferin-icon-configuration*
+Manual icon provider selection:
+>lua
+  require('bufferin').setup({
+    icons = {
+      provider = 'devicons', -- 'auto', 'devicons', 'mini', or 'builtin'
+    },
+  })
+<
+
+*bufferin-builtin-icons*
+Built-in icon customization:
+>lua
+  require('bufferin').setup({
+    icons = {
+      provider = 'builtin',
+      builtin = {
+        default = '',
+        lua = '',
+        vim = '',
+        js = '',
+        ts = '',
+        py = '',
+        go = '',
+        rs = '',
+        -- ... customize as needed
+      },
+    },
+  })
+<
+
+==============================================================================
+13. ADVANCED FEATURES                            *bufferin-advanced-features*
+
+*bufferin-smart-detection*
+Smart environment detection:
+bufferin.nvim analyzes your Neovim setup and automatically optimizes:
+- Buffer line plugin integration
+- Icon provider selection
+- Buffer management strategy
+- Navigation command behavior
+
+*bufferin-performance*
+Performance optimizations:
+- Lazy loading of plugin modules
+- Cached window layout computation
+- Efficient buffer list updates
+- Minimal UI refresh cycles
+
+*bufferin-extensibility*
+Extensibility:
+- Public API for buffer operations
+- Event system for plugin integration
+- Configurable key mappings
+- Customizable display options
+
+*bufferin-debugging*
+Debugging and troubleshooting:
+- Check detected plugins: `lua print(require('bufferin.config').get()._detected_plugin)`
+- Verify buffer order: `lua print(vim.inspect(vim.g.bufferin_custom_order))`
+- Test icon provider: `lua print(require('bufferin.icons').get_icon('test.lua'))`
+
+==============================================================================
+14. TROUBLESHOOTING                              *bufferin-troubleshooting*
+
+*bufferin-common-issues*
+Common issues and solutions:
+
+Q: Buffer movements don't reflect in my buffer line
+A: Ensure your buffer line plugin is supported (cokeline/bufferline) and
+   restart Neovim to trigger plugin detection.
+
+Q: Icons are not showing
+A: Install nvim-web-devicons or mini.icons, or check icon provider setting:
+   `lua print(require('bufferin.config').get().icons.provider)`
+
+Q: Buffer order is not persistent
+A: Check persist_buffer_order setting:
+   `lua print(require('bufferin.config').get().persist_buffer_order)`
+
+Q: Window layout is not showing
+A: Layout maps only appear with multiple windows. Split your window and
+   reopen bufferin.
+
+Q: Custom navigation commands not working
+A: Verify buffer order synchronization:
+   `lua print(vim.inspect(vim.g.bufferin_custom_order))`
+
+*bufferin-performance-issues*
+Performance troubleshooting:
+- Large buffer counts: Consider filtering with show_hidden = false
+- Slow icon loading: Try different icon provider or disable icons
+- UI lag: Check for conflicting autocmds or mappings
+
+*bufferin-compatibility*
+Compatibility notes:
+- Requires Neovim >= 0.7.0 for floating window API
+- Works with most buffer line plugins via fallback mode
+- Compatible with session managers like auto-session
+
+==============================================================================
+15. LICENSE                                                  *bufferin-license*
+
+MIT License
+
+Copyright (c) 2025 Daichi Furiya
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+==============================================================================
+vim:tw=78:ts=2:ft=help:norl:

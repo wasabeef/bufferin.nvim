@@ -9,6 +9,9 @@ local buffer = require('bufferin.buffer')
 function M.setup(opts)
     config.setup(opts or {})
 
+    -- Restore saved buffer order if persistence is enabled
+    buffer.restore_custom_order()
+
     -- Optionally override :bnext and :bprev to use custom order
     if config.get().override_navigation then
         M.setup_navigation_overrides()
@@ -33,6 +36,25 @@ function M.next()
     local buffers = buffer.get_buffers()
     local current = vim.api.nvim_get_current_buf()
 
+    -- Use stored global custom order if available and recent
+    local global_order = vim.g.bufferin_custom_order
+    local last_update = vim.g.bufferin_last_update
+    local now = vim.loop.now()
+
+    if global_order and last_update and (now - last_update) < 5000 then -- 5 second freshness
+        for i, bufnr in ipairs(global_order) do
+            if bufnr == current then
+                local next_idx = i < #global_order and i + 1 or 1
+                local next_bufnr = global_order[next_idx]
+                if vim.api.nvim_buf_is_valid(next_bufnr) then
+                    buffer.select(next_bufnr)
+                    return
+                end
+            end
+        end
+    end
+
+    -- Fallback to standard order
     for i, buf in ipairs(buffers) do
         if buf.bufnr == current then
             local next_idx = i < #buffers and i + 1 or 1
@@ -53,6 +75,25 @@ function M.prev()
     local buffers = buffer.get_buffers()
     local current = vim.api.nvim_get_current_buf()
 
+    -- Use stored global custom order if available and recent
+    local global_order = vim.g.bufferin_custom_order
+    local last_update = vim.g.bufferin_last_update
+    local now = vim.loop.now()
+
+    if global_order and last_update and (now - last_update) < 5000 then -- 5 second freshness
+        for i, bufnr in ipairs(global_order) do
+            if bufnr == current then
+                local prev_idx = i > 1 and i - 1 or #global_order
+                local prev_bufnr = global_order[prev_idx]
+                if vim.api.nvim_buf_is_valid(prev_bufnr) then
+                    buffer.select(prev_bufnr)
+                    return
+                end
+            end
+        end
+    end
+
+    -- Fallback to standard order
     for i, buf in ipairs(buffers) do
         if buf.bufnr == current then
             local prev_idx = i > 1 and i - 1 or #buffers

@@ -1,3 +1,7 @@
+--- Icon management module for bufferin.nvim
+--- Handles file type icons from various providers (devicons, mini.icons, builtin)
+--- @module bufferin.icons
+
 local M = {}
 local config = require('bufferin.config')
 
@@ -32,24 +36,24 @@ local function get_builtin_icon(filename)
     local conf = config.get()
     local icons = conf.icons.builtin
     local ext = vim.fn.fnamemodify(filename, ':e')
-    
+
     -- Handle special cases
     if filename:match('^term://') then
         return conf.icons.terminal, nil
     end
-    
+
     -- Look up by extension
     local icon = icons[ext]
     if icon then
         return icon, nil
     end
-    
+
     -- Try to match by filename for files without extension
     local basename = vim.fn.fnamemodify(filename, ':t')
     if icons[basename] then
         return icons[basename], nil
     end
-    
+
     -- Default icon
     return icons.default, nil
 end
@@ -58,7 +62,7 @@ end
 local function get_icon_provider()
     local conf = config.get()
     local provider = conf.icons.provider
-    
+
     if provider == 'auto' then
         if has_devicons() then
             return 'devicons'
@@ -68,7 +72,7 @@ local function get_icon_provider()
             return 'builtin'
         end
     end
-    
+
     return provider
 end
 
@@ -86,7 +90,7 @@ end
 -- Get icon for a file
 function M.get_icon(filename)
     local provider = get_icon_provider()
-    
+
     if provider == 'devicons' and has_devicons() then
         return get_devicon(filename)
     elseif provider == 'mini' and has_mini_icons() then

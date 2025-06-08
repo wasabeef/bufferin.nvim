@@ -6,7 +6,7 @@ local buffer = require('bufferin.buffer')
 local config = require('bufferin.config')
 local utils = require('bufferin.utils')
 
-describe("bufferin", function()
+describe('bufferin', function()
     before_each(function()
         -- Reset to default configuration
         config.setup({})
@@ -23,8 +23,8 @@ describe("bufferin", function()
         end
     end)
 
-    describe("setup", function()
-        it("should accept custom configuration", function()
+    describe('setup', function()
+        it('should accept custom configuration', function()
             bufferin.setup({
                 window = {
                     width = 0.5,
@@ -44,8 +44,8 @@ describe("bufferin", function()
         end)
     end)
 
-    describe("buffer operations", function()
-        it("should list all buffers", function()
+    describe('buffer operations', function()
+        it('should list all buffers', function()
             -- Create test buffers
             local buf1 = vim.api.nvim_create_buf(true, false)
             local buf2 = vim.api.nvim_create_buf(true, false)
@@ -54,10 +54,10 @@ describe("bufferin", function()
             assert.equals(3, #buffers) -- Current + 2 created
         end)
 
-        it("should filter hidden buffers", function()
+        it('should filter hidden buffers', function()
             -- Create visible buffer
             local visible = vim.api.nvim_create_buf(true, false)
-            vim.api.nvim_buf_set_name(visible, "visible.txt")
+            vim.api.nvim_buf_set_name(visible, 'visible.txt')
 
             -- Create hidden buffer
             local hidden = vim.api.nvim_create_buf(false, true)
@@ -75,7 +75,7 @@ describe("bufferin", function()
             assert.is_false(found_hidden)
         end)
 
-        it("should delete buffer", function()
+        it('should delete buffer', function()
             local buf = vim.api.nvim_create_buf(true, false)
             assert.is_true(vim.api.nvim_buf_is_valid(buf))
 
@@ -83,13 +83,13 @@ describe("bufferin", function()
             assert.is_false(vim.api.nvim_buf_is_valid(buf))
         end)
 
-        it("should select buffer", function()
+        it('should select buffer', function()
             local buf = vim.api.nvim_create_buf(true, false)
             buffer.select(buf)
             assert.equals(buf, vim.api.nvim_get_current_buf())
         end)
 
-        it("should reorder buffers", function()
+        it('should reorder buffers', function()
             local buf1 = vim.api.nvim_create_buf(true, false)
             local buf2 = vim.api.nvim_create_buf(true, false)
             local buf3 = vim.api.nvim_create_buf(true, false)
@@ -108,7 +108,7 @@ describe("bufferin", function()
             assert.equals(initial_order[1], new_buffers[2].bufnr)
         end)
 
-        it("should handle invalid move operations", function()
+        it('should handle invalid move operations', function()
             local buf1 = vim.api.nvim_create_buf(true, false)
             local buffers = buffer.get_buffers()
 
@@ -119,7 +119,7 @@ describe("bufferin", function()
             assert.is_false(buffer.move_buffer(1, 1, buffers)) -- Same position
         end)
 
-        it("should maintain custom order across buffer additions", function()
+        it('should maintain custom order across buffer additions', function()
             local buf1 = vim.api.nvim_create_buf(true, false)
             local buf2 = vim.api.nvim_create_buf(true, false)
 
@@ -135,43 +135,43 @@ describe("bufferin", function()
         end)
     end)
 
-    describe("search functionality", function()
-        it("should match buffer by name", function()
+    describe('search functionality', function()
+        it('should match buffer by name', function()
             local buf_info = {
-                display_name = "test.lua",
-                name = "/home/user/test.lua",
+                display_name = 'test.lua',
+                name = '/home/user/test.lua',
             }
 
-            assert.is_true(utils.matches_search(buf_info, "test"))
-            assert.is_true(utils.matches_search(buf_info, "lua"))
-            assert.is_false(utils.matches_search(buf_info, "vim"))
+            assert.is_true(utils.matches_search(buf_info, 'test'))
+            assert.is_true(utils.matches_search(buf_info, 'lua'))
+            assert.is_false(utils.matches_search(buf_info, 'vim'))
         end)
 
-        it("should match buffer by path", function()
+        it('should match buffer by path', function()
             local buf_info = {
-                display_name = "test.lua",
-                name = "/home/user/project/test.lua",
+                display_name = 'test.lua',
+                name = '/home/user/project/test.lua',
             }
 
-            assert.is_true(utils.matches_search(buf_info, "home"))
-            assert.is_true(utils.matches_search(buf_info, "project"))
+            assert.is_true(utils.matches_search(buf_info, 'home'))
+            assert.is_true(utils.matches_search(buf_info, 'project'))
         end)
 
-        it("should handle case-insensitive search", function()
+        it('should handle case-insensitive search', function()
             local buf_info = {
-                display_name = "Test.Lua",
-                name = "/Home/User/Test.Lua",
+                display_name = 'Test.Lua',
+                name = '/Home/User/Test.Lua',
             }
 
-            assert.is_true(utils.matches_search(buf_info, "test"))
-            assert.is_true(utils.matches_search(buf_info, "TEST"))
-            assert.is_true(utils.matches_search(buf_info, "lua"))
-            assert.is_true(utils.matches_search(buf_info, "LUA"))
+            assert.is_true(utils.matches_search(buf_info, 'test'))
+            assert.is_true(utils.matches_search(buf_info, 'TEST'))
+            assert.is_true(utils.matches_search(buf_info, 'lua'))
+            assert.is_true(utils.matches_search(buf_info, 'LUA'))
         end)
     end)
 
-    describe("navigation", function()
-        it("should navigate to next buffer", function()
+    describe('navigation', function()
+        it('should navigate to next buffer', function()
             local buf1 = vim.api.nvim_create_buf(true, false)
             local buf2 = vim.api.nvim_create_buf(true, false)
             local buf3 = vim.api.nvim_create_buf(true, false)
@@ -189,7 +189,7 @@ describe("bufferin", function()
             assert.is_true(current_buf == buf1 or vim.fn.buflisted(current_buf) == 1)
         end)
 
-        it("should navigate to previous buffer", function()
+        it('should navigate to previous buffer', function()
             local buf1 = vim.api.nvim_create_buf(true, false)
             local buf2 = vim.api.nvim_create_buf(true, false)
             local buf3 = vim.api.nvim_create_buf(true, false)
@@ -203,39 +203,39 @@ describe("bufferin", function()
         end)
     end)
 
-    describe("utils", function()
-        it("should get correct display name", function()
-            assert.equals("[No Name]", utils.get_display_name(""))
-            assert.equals("test.lua", utils.get_display_name("/path/to/test.lua"))
-            assert.equals("[Terminal]", utils.get_display_name("term://something"))
+    describe('utils', function()
+        it('should get correct display name', function()
+            assert.equals('[No Name]', utils.get_display_name(''))
+            assert.equals('test.lua', utils.get_display_name('/path/to/test.lua'))
+            assert.equals('[Terminal]', utils.get_display_name('term://something'))
         end)
     end)
 
-    describe("edge cases", function()
-        it("should handle empty buffer list", function()
+    describe('edge cases', function()
+        it('should handle empty buffer list', function()
             -- Delete all buffers including current
             for _, buf in ipairs(vim.api.nvim_list_bufs()) do
                 pcall(vim.api.nvim_buf_delete, buf, { force = true })
             end
 
             -- Create a new buffer
-            vim.cmd("enew")
+            vim.cmd('enew')
 
             local buffers = buffer.get_buffers()
             assert.equals(1, #buffers)
         end)
 
-        it("should handle buffers with same name", function()
+        it('should handle buffers with same name', function()
             local buf1 = vim.api.nvim_create_buf(true, false)
-            vim.api.nvim_buf_set_name(buf1, "test.txt")
+            vim.api.nvim_buf_set_name(buf1, 'test.txt')
 
             local buf2 = vim.api.nvim_create_buf(true, false)
-            vim.api.nvim_buf_set_name(buf2, "test.txt")
+            vim.api.nvim_buf_set_name(buf2, 'test.txt')
 
             local buffers = buffer.get_buffers()
             local found_count = 0
             for _, buf in ipairs(buffers) do
-                if buf.display_name == "test.txt" then
+                if buf.display_name == 'test.txt' then
                     found_count = found_count + 1
                 end
             end
