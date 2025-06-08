@@ -50,8 +50,8 @@ Key Features:
 Using lazy.nvim (recommended):
 >lua
   {
-    'your-username/bufferin.nvim',
-    cmd = { "Bufferin", "BufferinToggle" },
+    'wasabeef/bufferin.nvim',
+    cmd = { "Bufferin" },
     config = function()
       require('bufferin').setup()
     end,
@@ -66,7 +66,7 @@ Using lazy.nvim (recommended):
 Using packer.nvim:
 >lua
   use {
-    'your-username/bufferin.nvim',
+    'wasabeef/bufferin.nvim',
     config = function()
       require('bufferin').setup()
     end,
@@ -76,7 +76,7 @@ Using packer.nvim:
 
 Using vim-plug:
 >vim
-  Plug 'your-username/bufferin.nvim'
+  Plug 'wasabeef/bufferin.nvim'
   Plug 'nvim-tree/nvim-web-devicons' " Optional
 <
 
@@ -90,7 +90,7 @@ Minimal setup (works out of the box):
 
 Add a keybinding:
 >lua
-  vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Open Bufferin' })
+  vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Toggle Bufferin' })
 <
 
 That's it! bufferin.nvim will automatically detect your environment and
@@ -99,43 +99,22 @@ optimize itself accordingly.
 ==============================================================================
 5. USAGE                                                     *bufferin-usage*
 
-Open bufferin buffer manager:
+Toggle bufferin buffer manager:
 >
   :Bufferin
 <
 
-Toggle bufferin window:
->
-  :BufferinToggle
-<
-
-Navigate buffers using custom order:
->
-  :BufferinNext
-  :BufferinPrev
-<
-
-Recommended keybindings:
+Recommended keybinding:
 >lua
-  vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Open Bufferin' })
-  vim.keymap.set('n', '<leader>bn', '<cmd>BufferinNext<cr>', { desc = 'Next Buffer' })
-  vim.keymap.set('n', '<leader>bp', '<cmd>BufferinPrev<cr>', { desc = 'Previous Buffer' })
+  vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Toggle Bufferin' })
 <
 
 ==============================================================================
 6. COMMANDS                                                *bufferin-commands*
 
 *:Bufferin*
-    Open the bufferin buffer manager window
+    Toggle the bufferin buffer manager window (open if closed, close if open)
 
-*:BufferinToggle*
-    Toggle the bufferin window (open if closed, close if open)
-
-*:BufferinNext*
-    Navigate to the next buffer in custom order
-
-*:BufferinPrev*
-    Navigate to the previous buffer in custom order
 
 ==============================================================================
 7. MAPPINGS                                                *bufferin-mappings*
@@ -248,9 +227,6 @@ Icon configuration:
 Experimental/optional features:
 - `show_window_layout`: Show window layout visualization (default: false)
 
-*bufferin-config-navigation*
-Navigation options:
-- `override_navigation`: Override :bnext/:bprev to use custom order
 
 ==============================================================================
 9. WINDOW LAYOUT                                      *bufferin-window-layout*

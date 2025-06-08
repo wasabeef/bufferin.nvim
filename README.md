@@ -52,7 +52,7 @@ This helps you understand your workspace at a glance, especially useful in compl
 ```lua
 {
   'wasabeef/bufferin.nvim',
-  cmd = { "Bufferin", "BufferinToggle" },
+  cmd = { "Bufferin" },
   config = function()
     require('bufferin').setup()
   end,
@@ -80,7 +80,7 @@ use {
 ### Using [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'your-username/bufferin.nvim'
+Plug 'wasabeef/bufferin.nvim'
 Plug 'nvim-tree/nvim-web-devicons' " Optional
 ```
 
@@ -88,17 +88,12 @@ Plug 'nvim-tree/nvim-web-devicons' " Optional
 
 ### Commands
 
-- `:Bufferin` - Open bufferin buffer manager
-- `:BufferinToggle` - Toggle bufferin window
-- `:BufferinNext` - Navigate to next buffer in custom order
-- `:BufferinPrev` - Navigate to previous buffer in custom order
+- `:Bufferin` - Toggle bufferin buffer manager
 
 ### Recommended Keybinding
 
 ```lua
-vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Open Bufferin' })
-vim.keymap.set('n', '<leader>bn', '<cmd>BufferinNext<cr>', { desc = 'Next Buffer' })
-vim.keymap.set('n', '<leader>bp', '<cmd>BufferinPrev<cr>', { desc = 'Previous Buffer' })
+vim.keymap.set('n', '<leader>b', '<cmd>Bufferin<cr>', { desc = 'Toggle Bufferin' })
 ```
 
 ### Default Keybindings (inside bufferin)
@@ -171,7 +166,6 @@ require('bufferin').setup({
 
   -- Experimental/optional features
   show_window_layout = false,   -- Show window layout visualization (experimental)
-  override_navigation = false,  -- Override :bnext/:bprev commands
 })
 ```
 
@@ -342,8 +336,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/your-username/bufferin.nvim/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/your-username/bufferin.nvim/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/wasabeef/bufferin.nvim/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/wasabeef/bufferin.nvim/discussions)
 - 📖 **Documentation**: `:help bufferin`
 - 💬 **Community**: [Neovim Discord](https://discord.gg/neovim)
 
