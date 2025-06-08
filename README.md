@@ -1,5 +1,16 @@
 # bufferin.nvim
 
+<div align="center">
+  <p>
+    <a href="https://github.com/wasabeef/bufferin.nvim/releases/latest">
+      <img alt="Latest release" src="https://img.shields.io/github/v/release/wasabeef/bufferin.nvim" />
+    </a>
+  </p>
+  <p>
+    <a href="README.ja.md">日本語</a>
+  </p>
+</div>
+
 A powerful and intuitive buffer manager for Neovim with advanced window layout visualization and seamless plugin integration.
 
 ![Bufferin Demo](https://user-images.githubusercontent.com/wasabeef/bufferin-demo.gif)
