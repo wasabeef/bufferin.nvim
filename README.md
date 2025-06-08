@@ -6,9 +6,6 @@
       <img alt="Latest release" src="https://img.shields.io/github/v/release/wasabeef/bufferin.nvim" />
     </a>
   </p>
-  <p>
-    <a href="README.ja.md">日本語</a>
-  </p>
 </div>
 
 A powerful and intuitive buffer manager for Neovim with advanced window layout visualization and seamless plugin integration.
