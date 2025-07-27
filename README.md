@@ -8,21 +8,21 @@
   </p>
 </div>
 
-A powerful and intuitive buffer manager for Neovim with advanced window layout visualization and seamless plugin integration.
+A buffer manager for Neovim with window layout visualization and plugin integration.
 
-https://github.com/user-attachments/assets/70d426ae-2e05-45bb-8116-63038557ce39
+<https://github.com/user-attachments/assets/70d426ae-2e05-45bb-8116-63038557ce39>
 
-## ✨ Features
+## Features
 
-- 📋 **Smart Buffer Management** - View and manage all open buffers in an elegant floating window
-- 🗺️ **Visual Window Layout** - See your current window arrangement with Unicode-based layout maps
-- 🎨 **Universal Icon Support** - Automatic detection of nvim-web-devicons, mini.icons, or built-in fallback
-- 🔗 **Seamless Plugin Integration** - Works with nvim-cokeline, bufferline.nvim, or standalone
-- 🚀 **Intelligent Navigation** - Jump to any buffer instantly with Enter
-- 🗑️ **Smart Buffer Deletion** - Remove buffers with `dd` including unsaved changes protection
-- 🔄 **Real Buffer Reordering** - Move buffers with `K`/`J` using actual buffer manipulation (not just visual)
-- 💾 **Session Persistence** - Automatically save and restore buffer order between sessions
-- ⚙️ **Zero Configuration** - Works perfectly out of the box with automatic plugin detection
+- Smart buffer management: View and manage all open buffers in an elegant floating window
+- Visual window layout: See your current window arrangement with Unicode-based layout maps
+- Universal icon support: Automatic detection of nvim-web-devicons, mini.icons, or built-in fallback
+- Plugin integration: Works with nvim-cokeline, bufferline.nvim, or standalone
+- Quick navigation: Jump to any buffer instantly with Enter
+- Buffer deletion: Remove buffers with `dd` including unsaved changes protection
+- Real buffer reordering: Move buffers with `K`/`J` using actual buffer manipulation (not just visual)
+- Session persistence: Automatically save and restore buffer order between sessions
+- Zero configuration: Works out of the box with automatic plugin detection
 
 ## 🗺️ Layout Visualization
 
@@ -176,6 +176,7 @@ bufferin.nvim automatically detects and integrates with popular buffer line plug
 ### 🎯 nvim-cokeline Integration
 
 When [nvim-cokeline](https://github.com/willothy/nvim-cokeline) is detected:
+
 - Buffer movements in bufferin instantly reflect in your cokeline
 - Maintains perfect synchronization between both interfaces
 - No additional configuration required
@@ -183,13 +184,15 @@ When [nvim-cokeline](https://github.com/willothy/nvim-cokeline) is detected:
 ### 📊 bufferline.nvim Integration  
 
 When [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) is detected:
+
 - Seamlessly integrates with bufferline's component system
 - Buffer reordering works across both interfaces
 - Automatic detection and optimization
 
 ### ⚡ Standalone Mode
 
-Works perfectly without any dependencies:
+Works without dependencies:
+
 - Full buffer management functionality
 - Custom ordering and navigation
 - Session persistence
@@ -208,6 +211,7 @@ require('bufferin').setup({
 ```
 
 ### Features
+
 - **Real-time Layout Detection** - Automatically maps your current window arrangement
 - **Unicode Visualization** - Uses box-drawing characters for clean ASCII art
 - **Smart File Grouping** - Groups multiple instances of the same file
@@ -217,6 +221,7 @@ require('bufferin').setup({
 ### Examples
 
 **Two-window horizontal split:**
+
 ```
 ┌──────────────┬──────────────┐
 │ init.lua     │ config.lua   │
@@ -224,6 +229,7 @@ require('bufferin').setup({
 ```
 
 **Complex multi-window layout:**
+
 ```
 ┌──────────────┬──────────────┬──────────────┐
 │ buffer.lua   │ ui.lua       │ utils.lua    │
@@ -238,10 +244,10 @@ require('bufferin').setup({
 
 Unlike plugins that only provide visual reordering, bufferin.nvim performs actual buffer manipulation:
 
-- **Swap-based Algorithm** - Inspired by bufferline.nvim's approach
-- **Universal Compatibility** - Works with or without external buffer plugins
-- **Persistent Changes** - Order changes persist across sessions
-- **Navigation Integration** - Custom order affects buffer navigation commands
+- Swap-based algorithm inspired by bufferline.nvim
+- Universal compatibility with or without external buffer plugins
+- Persistent changes across sessions
+- Navigation integration with custom order
 
 ### Smart Auto-Detection
 
@@ -249,10 +255,11 @@ bufferin.nvim intelligently adapts to your environment:
 
 ```lua
 -- Automatic optimization based on your setup
-require('bufferin').setup() -- That's it!
+require('bufferin').setup() -- Complete setup
 ```
 
 **Detection Logic:**
+
 1. **cokeline detected** → Uses cokeline's buffer management API
 2. **bufferline detected** → Integrates with bufferline's component system  
 3. **Neither detected** → Uses optimized standalone buffer manipulation
