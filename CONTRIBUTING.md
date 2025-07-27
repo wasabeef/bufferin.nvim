@@ -15,12 +15,14 @@ Thank you for your interest in contributing to bufferin.nvim! This guide will he
 ### Development Setup
 
 1. **Fork and Clone**
+
    ```bash
    git clone https://github.com/wasabeef/bufferin.nvim.git
    cd bufferin.nvim
    ```
 
 2. **Set up Development Environment**
+
    ```bash
    # Install development dependencies (optional but recommended)
    # For formatting
@@ -31,6 +33,7 @@ Thank you for your interest in contributing to bufferin.nvim! This guide will he
    ```
 
 3. **Create a Feature Branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -236,6 +239,7 @@ require('bufferin').setup({
 
 **Additional context**
 Add any other context about the problem here.
+
 ```
 
 ## ✨ Feature Requests
@@ -243,6 +247,7 @@ Add any other context about the problem here.
 ### Feature Request Template
 
 ```
+
 **Is your feature request related to a problem?**
 A clear description of what the problem is.
 
@@ -254,6 +259,7 @@ Other solutions or workarounds you've thought about.
 
 **Additional context**
 Any other context, mockups, or examples.
+
 ```
 
 ## 🚀 Pull Request Process
@@ -354,6 +360,7 @@ By contributing to bufferin.nvim, you agree that your contributions will be lice
 ## 🙏 Recognition
 
 Contributors will be acknowledged in:
+
 - Release notes for significant contributions
 - README.md contributors section
 - Git commit history

@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Testing
+
 ```bash
 # Run all tests
 nvim --headless -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/"
@@ -14,6 +15,7 @@ nvim --headless -u tests/minimal_init.lua -c "luafile tests/buffer_management_te
 ```
 
 ### Code Quality
+
 ```bash
 # Run linter
 luacheck lua/
@@ -30,6 +32,7 @@ stylua lua/bufferin/init.lua
 bufferin.nvim is a Neovim buffer management plugin written in Lua. The architecture follows a modular design:
 
 ### Core Modules
+
 - **init.lua** - Main entry point, provides setup() and high-level API
 - **config.lua** - Configuration management with defaults and user overrides
 - **buffer.lua** - Buffer operations (list, select, delete, reorder) and custom ordering
@@ -38,6 +41,7 @@ bufferin.nvim is a Neovim buffer management plugin written in Lua. The architect
 - **icons.lua** - File type icon support (nvim-web-devicons, mini.icons, builtin)
 
 ### Key Design Patterns
+
 - **Real Buffer Reordering**: Uses swap-based algorithm inspired by bufferline.nvim to actually change buffer arrangement
 - **Custom Buffer Ordering**: Plugin maintains its own buffer order separate from Neovim's internal order
 - **Icon Provider Abstraction**: Automatically detects and uses available icon plugins (devicons/mini.icons) with builtin fallback
@@ -47,6 +51,7 @@ bufferin.nvim is a Neovim buffer management plugin written in Lua. The architect
 - **Persistent Order**: Buffer order is saved/restored between sessions using JSON-encoded file paths
 
 ### Buffer Management
+
 - Custom order is stored in `custom_order` array in buffer.lua
 - `move_buffer()` performs actual buffer swapping using direct array element exchange
 - `sync_buffer_order()` stores order in global variables for navigation integration
@@ -56,17 +61,21 @@ bufferin.nvim is a Neovim buffer management plugin written in Lua. The architect
 - Performance optimization with cached window layout computation
 
 ### Configuration Options
+
 - `show_window_layout` (default: false) - Show window layout visualization (experimental)
 - `override_navigation` (default: false) - Override :bnext/:bprev to use custom order
 - Buffer order synchronization and session persistence are always enabled as core features
 
 ### Plugin Compatibility
+
 - **nvim-cokeline**: Auto-detects and uses cokeline's buf_order system via move_buffer()
 - **Standalone**: Uses internal swap-based reordering inspired by bufferline.nvim
 - **bufferline.nvim**: Compatible architecture but separate implementations
 
 ### Testing Framework
+
 Uses plenary.nvim for testing with minimal_init.lua setup. Tests cover:
+
 - Configuration handling
 - Buffer operations (list, delete, select, reorder)
 - Plugin integration (cokeline, bufferline)
@@ -75,6 +84,7 @@ Uses plenary.nvim for testing with minimal_init.lua setup. Tests cover:
 - Edge cases (empty lists, same names, window state)
 
 ### Code Style
+
 - 4 spaces indentation (stylua.toml)
 - Single quotes preferred for strings
 - 120 character line width
@@ -83,6 +93,7 @@ Uses plenary.nvim for testing with minimal_init.lua setup. Tests cover:
 - LuaLS-style documentation annotations for all public functions
 
 ### Key Global Variables
+
 - `_G.bufferin_window_open` - Prevents buffer switching during UI operations
 - `vim.g.bufferin_custom_order` - Current buffer order for navigation
 - `vim.g.bufferin_last_update` - Timestamp for order freshness check
